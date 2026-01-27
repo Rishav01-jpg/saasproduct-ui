@@ -1,0 +1,111 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* 🌌 Purple landing-style overlay + image */
+   background:
+    linear-gradient(
+      rgba(11, 1, 32, 0.88),
+      rgba(20, 5, 45, 0.92)
+    ),
+    url("https://res.cloudinary.com/djatdycpx/image/upload/v1768206860/6012933_hehrvn.jpg");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(27, 10, 58, 0.85); /* purple glass */
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 50px;
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.25);
+  text-align: center;
+  border: 1px solid rgba(168, 85, 247, 0.25);
+}
+
+.auth-card h1 {
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.auth-card p {
+  color: #c4b5fd; /* soft purple text */
+  margin-bottom: 24px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #2e1065;
+  outline: none;
+  background: #0f0326; /* deep purple input */
+  color: #ffffff;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.auth-card input:focus {
+  border-color: #a855f7;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #a855f7, #ec4899); /* purple → pink */
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
+  transition: 0.3s ease;
+}
+
+.auth-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.45);
+}
+
+.auth-card span {
+  display: block;
+  margin-top: 16px;
+  color: #c4b5fd;
+}
+
+.auth-card a {
+  color: #ec4899;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-card a:hover {
+  text-decoration: underline;
+}
+.auth-error {
+  background: rgba(255, 0, 0, 0.15);
+  color: #ffffff; /* make text white */
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  border: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+.auth-success {
+  background: rgba(34, 197, 94, 0.15);
+  color: #ffffff; /* make text white */
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
