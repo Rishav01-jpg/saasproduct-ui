@@ -7,11 +7,14 @@ import SuperAdmin from "./pages/SuperAdmin";
 import Landing from "./pages/Landing";
 import Plans from "./pages/Plans";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 export default function App() {
   return (
+  <GoogleOAuthProvider clientId="76341361127-6l495332441mlobm5vgqoi8tlr3r0hld.apps.googleusercontent.com">
     <BrowserRouter>
+
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/login" element={<Login />} />
@@ -47,7 +50,9 @@ export default function App() {
 <Route path="/plans" element={<Plans />} />
 
 
+
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+  </GoogleOAuthProvider>
   );
 }

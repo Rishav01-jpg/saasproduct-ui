@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/auth.css";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,20 +12,20 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  // ================= NORMAL LOGIN =================
   const handleLogin = async () => {
     setError("");
     setLoading(true);
 
     try {
       const res = await fetch(
-  `${import.meta.env.VITE_API_URL}/api/auth/login`,
-  {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ email, password })
-      });
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
@@ -33,23 +35,45 @@ export default function Login() {
         return;
       }
 
-      // ✅ Save token & role
       localStorage.setItem("token", data.token);
-localStorage.setItem("tenantId", data.tenantId);
-
+      localStorage.setItem("tenantId", data.tenantId);
       localStorage.setItem("role", data.role);
 
-      // ✅ Redirect
-     if (data.role === "superadmin") {
-  navigate("/superadmin");
-} else {
-  navigate("/dashboard");
-}
-
+      if (data.role === "superadmin") {
+        navigate("/superadmin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
       setError("Server not reachable");
     } finally {
       setLoading(false);
+    }
+  };
+
+  // ================= GOOGLE LOGIN =================
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setError("");
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/google-login`,
+        { credential: credentialResponse.credential }
+      );
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("tenantId", res.data.tenantId);
+      localStorage.setItem("role", res.data.role);
+
+      if (res.data.role === "superadmin") {
+        navigate("/superadmin");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.msg || "Google login failed. Please try again."
+      );
     }
   };
 
@@ -78,6 +102,14 @@ localStorage.setItem("tenantId", data.tenantId);
         <button onClick={handleLogin} disabled={loading}>
           {loading ? "Logging in..." : "Login"}
         </button>
+
+        {/* GOOGLE SIGN IN */}
+        <div style={{ marginTop: "15px", textAlign: "center" }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => setError("Google Sign-In failed")}
+          />
+        </div>
 
         <span>
           Don’t have an account? <a href="/signup">Sign up</a>
