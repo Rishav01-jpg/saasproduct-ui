@@ -22,6 +22,9 @@ export default function Dashboard() {
   const [staffPassword, setStaffPassword] = useState("");
   const [staffRole, setStaffRole] = useState("staff");
   const [staffDashboardId, setStaffDashboardId] = useState("");
+const [recentDash, setRecentDash] = useState({ name: "", id: "" });
+
+
 
   useEffect(() => {
     if (!token || role === "superadmin") {
@@ -32,6 +35,29 @@ export default function Dashboard() {
     fetchDashboards();
     fetchTeam();
   }, []);
+useEffect(() => {
+  const fetchRecentDashboard = async () => {
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/users/me`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const data = await res.json();
+
+      if (data.lastDashboard) {
+        setRecentDash({
+          id: data.lastDashboard._id,
+          name: data.lastDashboard.name
+        });
+      }
+    } catch (err) {
+      console.log("Failed to load recent dashboard");
+    }
+  };
+
+  if (token) fetchRecentDashboard();
+}, [token]);
+
 
   const fetchDashboards = async () => {
     try {
@@ -127,71 +153,139 @@ export default function Dashboard() {
 
   return (
     <div className="dash-layout">
-      <aside className="sidebar">
-        <h2>CRM</h2>
-        <p>Role: {role}</p>
-        <button className="logout-btn" onClick={logout}>Logout</button>
-      </aside>
+  <aside className="sidebar">
+  <div className="sidebar-top">
+    <h2 className="logo">CRM</h2>
+    <p className="role-text">Admin Panel</p>
+
+    <div className="workspace-box">
+      <p className="workspace-title">Workspaces</p>
+      <p className="workspace-sub">
+        {dashboards.length} dashboards created
+      </p>
+    </div>
+
+    {/* ⭐ RECENT DASHBOARD */}
+ {recentDash.name && recentDash.id && (
+  <div
+    className="recent-dashboard"
+    onClick={() => navigate(`/dashboard/${recentDash.id}`)}
+  >
+    <p className="recent-label">Last Opened Dashboard</p>
+    <p className="recent-name">🕘 {recentDash.name}</p>
+  </div>
+)}
+
+
+
+    
+  </div>
+
+  <button className="logout-btn" onClick={logout}>Logout</button>
+</aside>
+
+
 
       <main className="dash-main">
         <h1>Dashboard</h1>
         {error && <p className="dash-error">{error}</p>}
         {loading && <p>Loading...</p>}
 
-        {role === "admin" && (
-          <div className="box">
-            <h3>Create Dashboard</h3>
-            <input placeholder="Dashboard Name" value={dashName} onChange={(e) => setDashName(e.target.value)} />
-            <button onClick={createDashboard}>Create</button>
-          </div>
-        )}
+       <div className="dashboard-top">
+  {role === "admin" && (
+    <div className="box create-dash-box">
+      <h3>Create Dashboard</h3>
+      <input
+        placeholder="Dashboard Name"
+        value={dashName}
+        onChange={(e) => setDashName(e.target.value)}
+      />
+      <button onClick={createDashboard}>Create</button>
+    </div>
+  )}
 
-        <div className="cards">
-          {dashboards.map((d) => (
-            <div key={d._id} className="card clickable" onClick={() => navigate(`/dashboard/${d._id}`)}>
-              <h3>{d.name}</h3>
-            </div>
-          ))}
-        </div>
+  <div className="cards dash-list">
+    {dashboards.map((d) => (
+      <div
+        key={d._id}
+        className="card clickable"
+    onClick={async () => {
+  try {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/users/last-dashboard`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ dashboardId: d._id })
+    });
+
+    setRecentDash({ name: d.name, id: d._id }); // update sidebar instantly
+  } catch (err) {
+    console.log("Failed to save recent dashboard");
+  }
+
+  navigate(`/dashboard/${d._id}`);
+}}
+
+
+
+      >
+        <h3>{d.name}</h3>
+      </div>
+    ))}
+  </div>
+</div>
+
 
         {role === "admin" && dashboards.length > 0 && (
-          <div className="box">
-            <h3>Create Staff / Manager</h3>
-            <input placeholder="Name" value={staffName} onChange={(e) => setStaffName(e.target.value)} />
-            <input placeholder="Email" value={staffEmail} onChange={(e) => setStaffEmail(e.target.value)} />
-            <input placeholder="Password" value={staffPassword} onChange={(e) => setStaffPassword(e.target.value)} />
+  <div className="staff-section">
 
-            <select value={staffRole} onChange={(e) => setStaffRole(e.target.value)}>
-              <option value="staff">Staff</option>
-              <option value="manager">Manager</option>
-            </select>
+    {/* LEFT SIDE — CREATE STAFF */}
+    <div className="box staff-form-box">
+      <h3>Create Staff / Manager</h3>
 
-            <select value={staffDashboardId} onChange={(e) => setStaffDashboardId(e.target.value)}>
-              <option value="">Select Dashboard</option>
-              {dashboards.map((d) => (
-                <option key={d._id} value={d._id}>{d.name}</option>
-              ))}
-            </select>
+      <input placeholder="Name" value={staffName} onChange={(e) => setStaffName(e.target.value)} />
+      <input placeholder="Email" value={staffEmail} onChange={(e) => setStaffEmail(e.target.value)} />
+      <input placeholder="Password" value={staffPassword} onChange={(e) => setStaffPassword(e.target.value)} />
 
-            <button onClick={createStaff}>Create User</button>
+      <select value={staffRole} onChange={(e) => setStaffRole(e.target.value)}>
+        <option value="staff">Staff</option>
+        <option value="manager">Manager</option>
+      </select>
+
+      <select value={staffDashboardId} onChange={(e) => setStaffDashboardId(e.target.value)}>
+        <option value="">Select Dashboard</option>
+        {dashboards.map((d) => (
+          <option key={d._id} value={d._id}>{d.name}</option>
+        ))}
+      </select>
+
+      <button onClick={createStaff}>Create User</button>
+    </div>
+
+    {/* RIGHT SIDE — TEAM LIST */}
+    <div className="box staff-list-box">
+      <h3>Your Team</h3>
+      {teamLoading && <p>Loading team...</p>}
+      {team.map(member => (
+        <div key={member._id} className="team-row">
+          <div>
+            <strong>{member.name}</strong> ({member.role})
+            <p className="team-sub">
+              Dashboard: {member.dashboardId?.name || "Not Assigned"}
+            </p>
           </div>
-        )}
+          <button className="delete-btn" onClick={() => deleteUser(member._id)}>
+            Delete
+          </button>
+        </div>
+      ))}
+    </div>
 
-        {role === "admin" && (
-          <div className="box">
-            <h3>Your Team</h3>
-            {teamLoading && <p>Loading team...</p>}
-            {team.map(member => (
-              <div key={member._id} className="team-row">
-                <div>
-                  <strong>{member.name}</strong> ({member.role})
-                  <p className="team-sub">Dashboard: {member.dashboardId?.name || "Not Assigned"}</p>
-                </div>
-                <button className="delete-btn" onClick={() => deleteUser(member._id)}>Delete</button>
-              </div>
-            ))}
-          </div>
-        )}
+  </div>
+)}
+
       </main>
     </div>
   );
