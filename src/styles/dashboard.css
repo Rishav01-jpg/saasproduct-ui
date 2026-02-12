@@ -508,3 +508,76 @@ gap: 10px;
     font-size: 20px;
   }
 }
+/* ================= MOBILE TOUCH STABILITY FIX ================= */
+@media (max-width: 768px) {
+
+  /* ❌ Remove blur layers that break tap detection */
+  .sidebar {
+    backdrop-filter: none !important;
+  }
+
+  /* ❌ Disable transform animations that create floating layers */
+  .clickable:hover,
+  .logout-btn:hover,
+  .quick-create-btn:hover,
+  .recent-dashboard:hover,
+  .card:active,
+  .box button:active {
+    transform: none !important;
+  }
+
+  /* Ensure layout uses normal document flow */
+  .dash-layout {
+    min-height: auto;
+  }
+
+  /* Prevent any invisible overlay scrolling layers */
+  .dash-main {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Improve tap response */
+  button, .card, .recent-dashboard {
+    touch-action: manipulation;
+  }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box.large {
+  width: 600px;
+  max-height: 75vh;
+  overflow-y: auto;
+  background: #1e1e2f;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+}
+
+.call-row {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.05);
+  padding: 10px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+.call-actions button {
+  margin-left: 6px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}

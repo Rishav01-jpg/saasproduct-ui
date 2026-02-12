@@ -8,7 +8,10 @@ import Landing from "./pages/Landing";
 import Plans from "./pages/Plans";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import Leads from "./pages/Leads";
 
+
+import "./styles/theme.css";
 
 export default function App() {
   return (
@@ -48,6 +51,16 @@ export default function App() {
 
 <Route path="/" element={<Landing />} />
 <Route path="/plans" element={<Plans />} />
+<Route
+  path="/dashboard/:id/leads"
+  element={
+    <ProtectedRoute>
+      <Leads />
+    </ProtectedRoute>
+  }
+/>
+
+
 
 
 

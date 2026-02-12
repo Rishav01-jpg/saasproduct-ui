@@ -1,0 +1,9 @@
+:root {
+  --bg-main: linear-gradient(135deg, #0b0120, #14052d);
+  --card-bg: rgba(255, 255, 255, 0.05);
+  --border-glow: rgba(255, 255, 255, 0.08);
+  --primary-gradient: linear-gradient(90deg, #7f5af0, #ff4ecd);
+  --text-main: #ffffff;
+  --text-dim: #b9b9ff;
+  --danger-gradient: linear-gradient(90deg, #ff4e7a, #ff6b6b);
+}

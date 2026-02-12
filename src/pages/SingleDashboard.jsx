@@ -12,6 +12,12 @@ export default function SingleDashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+const [scheduledCalls, setScheduledCalls] = useState([]);
+const [showCallsModal, setShowCallsModal] = useState(false);
+const [showHistory, setShowHistory] = useState(false);
+
+const activeCalls = scheduledCalls.filter(c => c.status === "Scheduled");
+const historyCalls = scheduledCalls.filter(c => c.status !== "Scheduled");
 
   /* ===============================
      AUTH CHECK + LOAD DASHBOARD
@@ -24,6 +30,11 @@ export default function SingleDashboard() {
 
     loadDashboard();
   }, []);
+useEffect(() => {
+  if (id && token) {
+    loadScheduledCalls();
+  }
+}, [id]);
 
   /* ===============================
      LOAD DASHBOARD INFO
@@ -63,6 +74,62 @@ export default function SingleDashboard() {
       setLoading(false);
     }
   };
+const loadScheduledCalls = async () => {
+  try {
+    const res = await fetch(
+      `${import.meta.env.VITE_API_URL}/api/leads/scheduled-calls?dashboardId=${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+    if (res.ok) {
+      setScheduledCalls(data);
+    }
+  } catch (err) {
+    console.error("Failed to load scheduled calls");
+  }
+};
+const updateCallStatus = async (callId, status) => {
+  try {
+    await fetch(
+      `${import.meta.env.VITE_API_URL}/api/leads/scheduled-calls/${callId}/status`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      }
+    );
+
+    loadScheduledCalls(); // refresh
+  } catch (err) {
+    alert("Failed to update call");
+  }
+};
+
+const cancelCall = async (callId) => {
+  try {
+    await fetch(
+      `${import.meta.env.VITE_API_URL}/api/leads/scheduled-calls/${callId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    loadScheduledCalls();
+  } catch (err) {
+    alert("Failed to cancel call");
+  }
+};
 
   /* ===============================
      LOGOUT
@@ -110,20 +177,32 @@ export default function SingleDashboard() {
                DASHBOARD MODULES (PLACEHOLDERS)
             =============================== */}
             <div className="cards">
-              <div className="card clickable">
-                <h3>Leads</h3>
-                <p>Manage leads for this dashboard</p>
-              </div>
+              <div
+  className="card clickable"
+  onClick={() => navigate(`/dashboard/${id}/leads`)}
+>
+  <h3>Leads</h3>
+  <p>Manage leads for this dashboard</p>
+</div>
+
 
               <div className="card clickable">
                 <h3>Contacts</h3>
                 <p>Customer & client contacts</p>
               </div>
 
-              <div className="card clickable">
-                <h3>Calls</h3>
-                <p>Call logs & scheduling</p>
-              </div>
+              <div
+  className="card clickable"
+  onClick={() => {
+    setShowCallsModal(true);
+    loadScheduledCalls();
+  }}
+>
+  <h3>Calls</h3>
+  <p>{activeCalls.length} Scheduled Calls</p>
+
+</div>
+
 
               {role === "admin" && (
                 <div className="card clickable">
@@ -134,6 +213,70 @@ export default function SingleDashboard() {
             </div>
           </>
         )}
+       {showCallsModal && (
+  <div className="modal-overlay">
+    <div className="modal-box large">
+
+      {/* HEADER */}
+      <div className="modal-header">
+        <h2>{showHistory ? "📜 Call History" : "📅 Scheduled Calls"}</h2>
+
+        <div className="modal-header-buttons">
+          {!showHistory ? (
+            <button className="history-btn" onClick={() => setShowHistory(true)}>
+              View History
+            </button>
+          ) : (
+            <button className="history-btn" onClick={() => setShowHistory(false)}>
+              Back to Scheduled
+            </button>
+          )}
+
+          <button
+            className="cancel-btn"
+            onClick={() => {
+              setShowCallsModal(false);
+              setShowHistory(false);
+              loadScheduledCalls();
+            }}
+          >
+            Close
+          </button>
+        </div>
+      </div>
+
+      {/* EMPTY MESSAGE */}
+      {(showHistory ? historyCalls : activeCalls).length === 0 && (
+        <p className="empty-text">
+          No {showHistory ? "history" : "scheduled"} calls
+        </p>
+      )}
+
+      {/* CALL LIST */}
+      {(showHistory ? historyCalls : activeCalls).map(call => (
+        <div key={call._id} className={`call-row status-${call.status?.toLowerCase()}`}>
+          <div>
+            <strong>{call.leadId?.name}</strong><br />
+            📱 {call.phone}<br />
+            ⏰ {new Date(call.scheduledAt).toLocaleString()}<br />
+            Status: <b>{call.status}</b>
+          </div>
+
+          {!showHistory && (
+            <div className="call-actions">
+              <button onClick={() => updateCallStatus(call._id, "Completed")}>✅</button>
+              <button onClick={() => updateCallStatus(call._id, "Missed")}>❌</button>
+              <button onClick={() => cancelCall(call._id)}>🗑️</button>
+            </div>
+          )}
+        </div>
+      ))}
+
+    </div>
+  </div>
+)}
+
+
       </main>
     </div>
   );
