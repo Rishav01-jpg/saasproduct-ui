@@ -9,6 +9,7 @@ import Plans from "./pages/Plans";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Leads from "./pages/Leads";
+import CallHistory from "./pages/CallHistory";
 
 
 import "./styles/theme.css";
@@ -56,6 +57,15 @@ export default function App() {
   element={
     <ProtectedRoute>
       <Leads />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/dashboard/:id/history"
+  element={
+    <ProtectedRoute>
+      <CallHistory />
     </ProtectedRoute>
   }
 />

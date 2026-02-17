@@ -628,3 +628,17 @@ html, body, #root {
   outline: none;
   border-color: #7b68ee;
 }
+.call-btn {
+  background: #e5e8e9;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 16px;
+}
+
+.call-btn:hover {
+  background: #02c720;
+}

@@ -58,6 +58,8 @@ const [isExotelConnected, setIsExotelConnected] = useState(false);
 const [exotelApiKey, setExotelApiKey] = useState("");
 const [callerId, setCallerId] = useState("");
 const stopCallingRef = useRef(false);
+const [manualCallLead, setManualCallLead] = useState(null);
+const callStartTimeRef = useRef(null);
 
 
   // ================= FETCH =================
@@ -84,36 +86,83 @@ const stopCallingRef = useRef(false);
     });
     setFollowups(res.data);
   };
-const startCalling = (type) => {
+const startCalling = async (type) => {
+  setShowCallTypeModal(false);
+
+  // ⭐ MANUAL CALL MODE
+  if (manualCallLead) {
+    const lead = manualCallLead;
+
+    if (!lead.phone) {
+      alert("No phone number");
+      return;
+    }
+
+    //  SIM CALL
+    callStartTimeRef.current = Date.now();
+
+    if (type === "SIM") {
+      window.open(`tel:${lead.phone}`);
+    }
+
+    // ☁️ CLOUD CALL
+    if (type === "CLOUD") {
+      if (!isExotelConnected) {
+        setShowExotelModal(true);
+        return;
+      }
+
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/exotel/call`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ phone: lead.phone })
+        });
+
+        if (!res.ok) {
+          alert("Cloud call failed");
+          return;
+        }
+      } catch {
+        alert("Error calling lead");
+        return;
+      }
+    }
+
+    // ⭐ SHOW CALL RESULT POPUP (same as auto)
+    setTimeout(() => {
+      setSelectedLead(lead);
+      setShowOutcomeModal(true);
+    }, 1500);
+
+    setManualCallLead(null);
+    return;
+  }
+
+  // ⭐ AUTO CALLING MODE
   if (leads.length === 0) {
     alert("No leads to call");
     return;
   }
+
   stopCallingRef.current = false;
 
- // reset stop flag
-
-  // 📱 SIM BASED → START DIRECTLY
   if (type === "SIM") {
     setCallType("SIM");
-    setShowCallTypeModal(false);
     setIsCalling(true);
     setCurrentIndex(0);
     callNextLead(0, "SIM");
-    return;
   }
 
-  // ☁️ CLOUD CALLING
   if (type === "CLOUD") {
-    setShowCallTypeModal(false);
-
-    // ❌ Not connected → show Exotel connect popup
     if (!isExotelConnected) {
       setShowExotelModal(true);
       return;
     }
 
-    // ✅ Already connected → start cloud calling
     setCallType("CLOUD");
     setIsCalling(true);
     setCurrentIndex(0);
@@ -139,7 +188,9 @@ const callNextLead = async (index, type) => {
 
   const lead = leads[index];
 
-  // 📱 SIM BASED CALLING
+  //  SIM BASED CALLING
+  callStartTimeRef.current = Date.now();
+
   if (type === "SIM") {
     window.open(`tel:${lead.phone}`);
   }
@@ -170,7 +221,48 @@ const callNextLead = async (index, type) => {
 }, 2000);
 
 };
+const saveAndOpenSchedule = async () => {
+  if (!callStatus) {
+    alert("Please select call status");
+    return;
+  }
 
+  try {
+    // 1️⃣ Save call history
+    await fetch(`${import.meta.env.VITE_API_URL}/api/call-history`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        leadName: selectedLead.name,
+        phone: selectedLead.phone,
+        callType: callType || "SIM",
+        status: callStatus,
+        outcome,
+        notes,
+        dashboardId
+      })
+    });
+
+    // 2️⃣ Update lead status
+    await api.put(`/api/leads/${selectedLead._id}`, {
+      status: callStatus
+    });
+
+    // ⭐ IMPORTANT: refresh UI
+    await fetchLeads();
+    await fetchStats();
+
+    // 3️⃣ Open schedule modal
+    setShowOutcomeModal(false);
+    setShowScheduleModal(true);
+
+  } catch (err) {
+    alert("Failed to save call result");
+  }
+};
 
 const saveCallResult = async () => {
   if (!callStatus) {
@@ -178,40 +270,73 @@ const saveCallResult = async () => {
     return;
   }
 
-  // 1️⃣ Save call history
-  await fetch(`${import.meta.env.VITE_API_URL}/api/call-history`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({
-      leadName: selectedLead.name,
-      phone: selectedLead.phone,
-      callType,
-      status: callStatus,
-      outcome,
-      notes,
-      dashboardId
-    })
-  });
+  // ⭐ Map Lead Status → Call History Enum
+ const callHistoryStatus = callStatus;
 
-  // 2️⃣ Directly update Lead status (same value)
-  await api.put(`/api/leads/${selectedLead._id}`, {
-    status: callStatus
-  });
 
-  // 3️⃣ Refresh UI
-  await fetchLeads();
-  await fetchStats();
+  // ⭐ Calculate call duration (seconds)
+  const duration = callStartTimeRef.current
+    ? Math.floor((Date.now() - callStartTimeRef.current) / 1000)
+    : 0;
 
-  moveToNextCall();
+  try {
+    // 1️⃣ Save Call History (VALID ENUM VALUES)
+    await fetch(`${import.meta.env.VITE_API_URL}/api/call-history`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        leadName: selectedLead.name,
+        phone: selectedLead.phone,
+        callType: callType || "SIM", // ensure not null
+        status: callHistoryStatus,   // Completed | Missed
+        outcome,
+        notes,
+        duration,
+        dashboardId
+      })
+    });
+
+    // 2️⃣ Update Lead status (Contacted, Won, etc)
+    await api.put(`/api/leads/${selectedLead._id}`, {
+      status: callStatus
+    });
+
+    // 3️⃣ Refresh UI
+    await fetchLeads();
+    await fetchStats();
+
+    // 4️⃣ Reset timer
+    callStartTimeRef.current = null;
+
+    if (isCalling) {
+      moveToNextCall();
+    } else {
+      setShowOutcomeModal(false);
+      setCallStatus("");
+      setOutcome("");
+      setNotes("");
+    }
+
+  } catch (err) {
+    alert("Failed to save call history");
+  }
 };
+
+
 
 
 const skipCall = () => {
-  moveToNextCall();
+  if (isCalling) {
+    moveToNextCall(); // auto mode
+  } else {
+    // manual mode → just close
+    setShowOutcomeModal(false);
+  }
 };
+
 const moveToNextCall = () => {
   setShowOutcomeModal(false);
   setCallStatus("");
@@ -271,6 +396,14 @@ const saveExotelKeys = async () => {
   callNextLead(0, "CLOUD");
 };
 
+const outcomeOptions = [
+  "Completed",
+  "Missed",
+  "Cancel",
+  "Wrong No",
+  "Switch Off"
+];
+
 
 const checkExotelConnection = async () => {
   try {
@@ -297,6 +430,36 @@ const checkExotelConnection = async () => {
     setIsExotelConnected(false);
   }
 };
+const callSingleLead = async (lead) => {
+  if (!lead.phone) {
+    alert("No phone number");
+    return;
+  }
+
+  // 📱 SIM CALL
+  if (callType === "SIM" || !isExotelConnected) {
+    window.open(`tel:${lead.phone}`);
+    return;
+  }
+
+  // ☁️ CLOUD CALL (Exotel)
+  try {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/exotel/call`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ phone: lead.phone })
+    });
+
+    if (!res.ok) {
+      alert("Cloud call failed");
+    }
+  } catch (err) {
+    alert("Error calling lead");
+  }
+};
 
 
 const scheduleCall = async () => {
@@ -306,6 +469,8 @@ const scheduleCall = async () => {
   }
 
   try {
+    const isoDate = new Date(scheduledAt).toISOString();
+
     const res = await fetch(
       `${import.meta.env.VITE_API_URL}/api/leads/${selectedLead._id}/schedule-call`,
       {
@@ -314,8 +479,7 @@ const scheduleCall = async () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ scheduledAt: new Date(scheduledAt).toISOString() }),
-
+        body: JSON.stringify({ scheduledAt: isoDate }),
       }
     );
 
@@ -329,19 +493,17 @@ const scheduleCall = async () => {
     alert("Call scheduled!");
     setShowScheduleModal(false);
     setScheduledAt("");
+
+    // ⭐ CONTINUE AUTO CALLING IF ACTIVE
+    if (isCalling) {
+      moveToNextCall();
+    }
+
   } catch (err) {
     alert("Server error");
   }
 };
 
-  useEffect(() => {
-    if (dashboardId) {
-      fetchLeads();
-      fetchStats();
-      fetchFollowups();
-      checkExotelConnection();
-    }
-  }, [filters, page, dashboardId]);
 
   // ================= CREATE =================
   const createLead = async () => {
@@ -451,6 +613,14 @@ const scheduleCall = async () => {
     fetchLeads();
     fetchStats();
   };
+useEffect(() => {
+  if (!dashboardId) return;
+
+  fetchLeads();
+  fetchStats();
+  fetchFollowups();
+  checkExotelConnection();
+}, [dashboardId, page, filters.search, filters.status, filters.source, filters.date]);
 
   // ================= UI =================
   return (
@@ -549,21 +719,33 @@ const scheduleCall = async () => {
                   <option>Lost</option>
                   <option>Won</option>
                 </select>
-                <div className="lead-actions">
-                  <button
-  className="schedule-btn"
+               <div className="lead-actions">
+  {/* 📞 Manual Call */}
+ <button
+  className="call-btn"
   onClick={() => {
-    setSelectedLead(lead);
-    setShowScheduleModal(true);
+    setManualCallLead(lead);
+    setShowCallTypeModal(true);
   }}
 >
-  📅 Schedule
+  📞
 </button>
 
-                  <button onClick={() => startEdit(lead)}>Edit</button>
-                  <button onClick={() => deleteLead(lead._id)}>Delete</button>
-                  
-                </div>
+
+  <button
+    className="schedule-btn"
+    onClick={() => {
+      setSelectedLead(lead);
+      setShowScheduleModal(true);
+    }}
+  >
+    📅 Schedule
+  </button>
+
+  <button onClick={() => startEdit(lead)}>Edit</button>
+  <button onClick={() => deleteLead(lead._id)}>Delete</button>
+</div>
+
               </>
             )}
           </div>
@@ -602,7 +784,9 @@ const scheduleCall = async () => {
 
       <div className="modal-actions">
         <button className="save-btn" onClick={scheduleCall}>Save</button>
+        
         <button className="cancel-btn" onClick={() => setShowScheduleModal(false)}>Cancel</button>
+        
       </div>
     </div>
   </div>
@@ -614,7 +798,7 @@ const scheduleCall = async () => {
 
       <button className="call-type-btn" onClick={() => startCalling("SIM")}>
 
-        📱 SIM Based (Free)
+         SIM Based (Free)
       </button>
 
       <button className="call-type-btn" onClick={() => startCalling("CLOUD")}>
@@ -674,13 +858,18 @@ const scheduleCall = async () => {
          <option>Won</option>
       </select>
 
-      <input
+  <select
   className="form-control"
   style={{ width: "80%", margin: "0 auto 12px auto" }}
-  placeholder="Outcome"
   value={outcome}
   onChange={e => setOutcome(e.target.value)}
-/>
+>
+  <option value="">Select Outcome</option>
+  {outcomeOptions.map((opt, i) => (
+    <option key={i} value={opt}>{opt}</option>
+  ))}
+</select>
+
 
       <textarea
   className="form-control"
@@ -689,15 +878,33 @@ const scheduleCall = async () => {
   value={notes}
   onChange={e => setNotes(e.target.value)}
 />
+<div
+  style={{
+    display: "flex",
+    gap: "10px",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    width: "100%",
+    marginTop: "10px"
+  }}
+>
+  <button className="primary-btn" onClick={saveCallResult}>
+    {isCalling ? "Save & Next" : "Save"}
+  </button>
 
-      <div style={{ display: "flex", gap: "10px", justifyContent: "center", width: "100%", marginTop: "10px" }}>
-        <button className="primary-btn" onClick={saveCallResult}>
-          Save & Next
-        </button>
-        <button className="secondary-btn" onClick={skipCall}>
-          Skip
-        </button>
-      </div>
+  <button
+  className="schedule-btn"
+  onClick={saveAndOpenSchedule}
+>
+  📅 Schedule
+</button>
+
+
+  <button className="secondary-btn" onClick={skipCall}>
+    {isCalling ? "Skip" : "Cancel"}
+  </button>
+</div>
+
     </div>
   </div>
 )}
