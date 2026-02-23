@@ -235,15 +235,17 @@ const saveAndOpenSchedule = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({
-        leadName: selectedLead.name,
-        phone: selectedLead.phone,
-        callType: callType || "SIM",
-        status: callStatus,
-        outcome,
-        notes,
-        dashboardId
-      })
+     body: JSON.stringify({
+  leadId: selectedLead._id,   // ⭐ ADD
+  leadName: selectedLead.name,
+  phone: selectedLead.phone,
+  callType: callType || "SIM",
+  status: callStatus,
+  outcome,
+  notes,
+  dashboardId
+})
+
     });
 
     // 2️⃣ Update lead status
@@ -287,16 +289,18 @@ const saveCallResult = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
       },
-      body: JSON.stringify({
-        leadName: selectedLead.name,
-        phone: selectedLead.phone,
-        callType: callType || "SIM", // ensure not null
-        status: callHistoryStatus,   // Completed | Missed
-        outcome,
-        notes,
-        duration,
-        dashboardId
-      })
+     body: JSON.stringify({
+  leadId: selectedLead._id,   // ⭐ ADD THIS LINE
+  leadName: selectedLead.name,
+  phone: selectedLead.phone,
+  callType: callType || "SIM",
+  status: callHistoryStatus,
+  outcome,
+  notes,
+  duration,
+  dashboardId
+})
+
     });
 
     // 2️⃣ Update Lead status (Contacted, Won, etc)
@@ -635,6 +639,7 @@ useEffect(() => {
         <div className="stat-card"><h4>Qualified</h4><p>{stats.qualifiedLeads || 0}</p></div>
         <div className="stat-card"><h4>Lost</h4><p>{stats.lostLeads || 0}</p></div>
         <div className="stat-card"><h4>Won</h4><p>{stats.wonLeads || 0}</p></div>
+        <div className="stat-card"><h4>Scheduled</h4><p>{stats.scheduledLeads || 0}</p></div>
       </div>
 
       {/* ADD LEAD */}
@@ -718,6 +723,7 @@ useEffect(() => {
                   <option>Qualified</option>
                   <option>Lost</option>
                   <option>Won</option>
+                  <option>Scheduled</option>
                 </select>
                <div className="lead-actions">
   {/* 📞 Manual Call */}
@@ -856,6 +862,7 @@ useEffect(() => {
         <option>Qualified</option>
         <option>Lost</option>
          <option>Won</option>
+         <option>Scheduled</option>
       </select>
 
   <select

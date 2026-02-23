@@ -1,0 +1,359 @@
+/* ================= PAGE BACKGROUND ================= */
+.call-history-page {
+  min-height: 100svh;
+  padding: 25px;
+  color: #ffffff;
+  background: linear-gradient(
+      rgba(11, 1, 32, 0.88),
+      rgba(20, 5, 45, 0.92)
+    ),
+    url("https://www.transparenttextures.com/patterns/cubes.png");
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* ================= TITLE ================= */
+.call-history-page .page-title {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+/* ================= FILTER BAR ================= */
+.call-history-page .lead-filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 0.8fr; /* ⭐ 4 columns */
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.call-history-page .lead-filters input,
+.call-history-page .lead-filters select {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: white;
+}
+
+.call-history-page .lead-filters select option {
+  background-color: #1a0b2e;
+  color: #ffffff;
+}
+
+/* ================= CARD CONTAINER ================= */
+.call-history-page .card {
+  background: rgba(20, 5, 45, 0.85);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 0 20px rgba(127, 90, 240, 0.15);
+  backdrop-filter: blur(14px);
+  overflow-x: auto;
+}
+
+/* ================= TABLE HEADER ================= */
+.call-history-page .table-header {
+  font-weight: 600;
+  opacity: 0.8;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ================= CALL HISTORY ROW ================= */
+.call-history-page .call-history-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1.2fr 1fr 1fr 1fr 1.5fr 1.5fr 120px;
+  gap: 18px;
+  align-items: center;
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: 0.2s ease;
+}
+
+.call-history-page .call-history-row:hover {
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+}
+
+/* ================= CELL ================= */
+.call-history-page .cell {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.call-history-page .cell strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.call-history-page .cell-label {
+  display: none;
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 2px;
+}
+
+/* ================= STATUS BADGES ================= */
+.call-history-page .status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.call-history-page .status-badge.new { background: #6c5ce7; }
+.call-history-page .status-badge.contacted { background: #0984e3; }
+.call-history-page .status-badge.qualified { background: #00b894; }
+.call-history-page .status-badge.lost { background: #d63031; }
+.call-history-page .status-badge.scheduled { background: #e0af1c; }
+.call-history-page .status-badge.won { background: #ed16df; color: black; }
+
+/* ================= CALL BUTTON ================= */
+.call-history-page .call-btn {
+  background: linear-gradient(90deg, #ffffff, #ffffff);
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  font-weight: 400;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 78, 205, 0.4);
+  transition: 0.2s ease;
+}
+
+.call-history-page .call-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= MODAL ================= */
+.call-history-page .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.call-history-page .modal-box {
+  background: rgba(20, 5, 45, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 26px;
+  border-radius: 16px;
+  width: 420px;
+  max-width: 95%;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 25px rgba(127, 90, 240, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.call-history-page .modal-box h3 {
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ================= FORM CONTROLS ================= */
+.call-history-page .form-control,
+.call-history-page textarea,
+.call-history-page .modal-box input[type="datetime-local"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: white;
+}
+
+.call-history-page textarea {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.call-history-page .form-control:focus,
+.call-history-page textarea:focus {
+  outline: none;
+  border-color: #7f5af0;
+}
+
+/* ================= MODAL BUTTONS ================= */
+.call-history-page .primary-btn {
+  background: linear-gradient(135deg, #6d5acd, #e93ef8);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.call-history-page .secondary-btn {
+  background: #2c2c50;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.call-history-page .save-btn {
+  background: linear-gradient(90deg, #00b894, #55efc4);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.call-history-page .cancel-btn {
+  background: #444;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.call-history-page .schedule-btn {
+  background: linear-gradient(90deg, #f7971e, #ffd200);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ================= CALL TYPE BUTTONS ================= */
+.call-history-page .call-type-btn {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.06);
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.call-history-page .call-type-btn:hover {
+  background: linear-gradient(90deg, #23212b, #0d080c);
+}
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+  .call-history-page {
+    padding: 14px;
+  }
+
+  /* 🔥 FIX: stack filters vertically so nothing gets cut */
+  .call-history-page .lead-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .call-history-page .lead-filters input,
+  .call-history-page .lead-filters select {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Each row becomes a clean card */
+  .call-history-page .call-history-row {
+    display: block;
+    background: rgba(20, 5, 45, 0.75);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 15px rgba(127, 90, 240, 0.2);
+  }
+
+  /* Hide header row on mobile */
+  .call-history-page .table-header {
+    display: none;
+  }
+
+  /* Hide repeated labels */
+  .call-history-page .cell-label {
+    display: none;
+  }
+
+  .call-history-page .cell {
+    white-space: normal;
+    margin-bottom: 6px;
+  }
+
+  .call-history-page .cell strong {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .call-history-page .status-badge {
+    display: inline-block;
+    margin: 6px 0;
+  }
+
+  .call-history-page .cell:nth-last-child(2) {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  .call-history-page .call-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+/* ================= TABLET RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .call-history-page .call-history-row {
+    grid-template-columns: 1.5fr 1.2fr 1fr 1fr 1fr 1.2fr 1.2fr 100px;
+    gap: 12px;
+  }
+}
+
+/* ===== DARK DROPDOWN FIX ===== */
+.call-history-page .modal-box select {
+  background-color: #1a0b2e !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.call-history-page .modal-box select option {
+  background-color: #1a0b2e;
+  color: #ffffff;
+}
+/* ===== SMALLER NOTES TEXTAREA (CALL RESULT MODAL ONLY) ===== */
+.call-history-page .modal-box textarea {
+  width: 90%;          /* smaller width */
+  max-width: 320px;    /* keeps it neat on large screens */
+  margin: 0 auto 16px; /* center horizontally + spacing below */
+  display: block;
+}
+/* ===== SMALLER DATE INPUT IN SCHEDULE CALL POPUP ===== */
+.call-history-page .modal-box input[type="datetime-local"] {
+  width: 75%;          /* smaller width */
+  max-width: 260px;    /* prevents stretching on large screens */
+  margin: 10px auto 16px; /* center + spacing */
+  display: block;
+}

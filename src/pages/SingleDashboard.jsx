@@ -223,18 +223,20 @@ const saveCallResult = async () => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        leadName:
-          typeof selectedLead.leadId === "object"
-            ? selectedLead.leadId.name
-            : "Lead",
-        phone: selectedLead.phone,
-        callType,
-        status: callStatus,
-        outcome,
-        notes,
-        dashboardId: id,
-      }),
+     body: JSON.stringify({
+  leadId: leadId, // ⭐ ADD THIS (MOST IMPORTANT)
+  leadName:
+    typeof selectedLead.leadId === "object"
+      ? selectedLead.leadId.name
+      : "Lead",
+  phone: selectedLead.phone,
+  callType,
+  status: callStatus,
+  outcome,
+  notes,
+  dashboardId: id,
+}),
+
     });
 
     // 2️⃣ Update lead status (FIXED)
@@ -402,16 +404,7 @@ const cancelCall = async (callId) => {
       <div className="modal-header">
         <h2>{showHistory ? " Call History" : " Scheduled Calls"}</h2>
 
-        <div className="modal-header-buttons">
-          {!showHistory ? (
-            <button className="history-btn" onClick={() => setShowHistory(true)}>
-              View History
-            </button>
-          ) : (
-            <button className="history-btn" onClick={() => setShowHistory(false)}>
-              Back to Scheduled
-            </button>
-          )}
+       <div className="modal-header-buttons">
 
           <button
             className="cancel-btn"
@@ -550,6 +543,7 @@ const cancelCall = async (callId) => {
         <option>Qualified</option>
         <option>Lost</option>
         <option>Won</option>
+        <option>Scheduled</option>
       </select>
 
       {/* 🔥 IMPORTANT: Outcome DROPDOWN (same as Leads.jsx) */}
@@ -604,24 +598,27 @@ const cancelCall = async (callId) => {
           : selectedLead.leadId;
 
       // 1️⃣ Save call history
+      
       await fetch(`${import.meta.env.VITE_API_URL}/api/call-history`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          leadName:
-            typeof selectedLead.leadId === "object"
-              ? selectedLead.leadId.name
-              : "Lead",
-          phone: selectedLead.phone,
-          callType,
-          status: callStatus,
-          outcome,
-          notes,
-          dashboardId: id,
-        }),
+       body: JSON.stringify({
+  leadId: leadId,   // ⭐ ADD THIS LINE
+  leadName:
+    typeof selectedLead.leadId === "object"
+      ? selectedLead.leadId.name
+      : "Lead",
+  phone: selectedLead.phone,
+  callType,
+  status: callStatus,
+  outcome,
+  notes,
+  dashboardId: id,
+}),
+
       });
 
       // 2️⃣ Update lead status

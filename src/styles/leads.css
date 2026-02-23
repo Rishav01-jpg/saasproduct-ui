@@ -628,17 +628,125 @@ html, body, #root {
   outline: none;
   border-color: #7b68ee;
 }
+/* ================= CALL BUTTON (MATCH CALL HISTORY PAGE) ================= */
+/* ================= CALL NOW BUTTON WHITE STYLE ================= */
+/* ================= GLOBAL CALL BUTTON (MATCH CALL HISTORY) ================= */
 .call-btn {
-  background: #e5e8e9;
-  color: white;
+  background: linear-gradient(90deg, #ffffff, #ffffff);
   border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  font-weight: 400;
   cursor: pointer;
-  margin-right: 6px;
-  font-size: 16px;
+  box-shadow: 0 0 12px rgba(255, 78, 205, 0.4);
+  transition: 0.2s ease;
 }
 
 .call-btn:hover {
-  background: #02c720;
+  transform: translateY(-2px);
+}
+/* ================= SCHEDULE CALL BUTTON (MATCH CALL HISTORY) ================= */
+.schedule-btn {
+  background: linear-gradient(90deg, #f7971e, #ffd200);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  color: black;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(255, 210, 0, 0.35);
+  transition: 0.2s ease;
+}
+
+.schedule-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ================= SCHEDULE MODAL STYLE (GLASS LOOK) ================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: rgba(20, 5, 45, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 26px;
+  border-radius: 16px;
+  width: 420px;
+  max-width: 95%;
+  color: white;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 0 25px rgba(127, 90, 240, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-box input[type="datetime-local"] {
+  width: 75%;
+  max-width: 260px;
+  margin: 10px auto 16px;
+  display: block;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.06);
+  color: white;
+}
+/* ================= START CALLING BUTTON (PREMIUM CTA) ================= */
+.start-calling-btn {
+  background: linear-gradient(135deg, #7f5af0, #ff4ecd);
+  border: none;
+  padding: 12px 22px;
+  border-radius: 14px;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 0 18px rgba(255, 78, 205, 0.45);
+  transition: all 0.25s ease;
+}
+
+.start-calling-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 28px rgba(255, 78, 205, 0.65);
+}
+
+.start-calling-btn:active {
+  transform: scale(0.97);
+}
+
+/* icon circle inside button */
+.start-calling-btn .icon-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* mobile full width */
+@media (max-width: 768px) {
+  .start-calling-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 14px;
+    font-size: 16px;
+  }
 }
