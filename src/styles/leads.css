@@ -750,3 +750,44 @@ html, body, #root {
     font-size: 16px;
   }
 }
+/* ================= IPAD AIR FIX ================= */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+  /* Stats grid compact */
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  /* Add Lead form compact */
+  .lead-form {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  /* Import / Export buttons */
+  .import-export-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Filters layout */
+  .lead-filters {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Lead row tighter spacing */
+  .lead-row {
+    grid-template-columns: 40px 1.4fr 1fr 1fr 1fr 1fr auto;
+    gap: 10px;
+  }
+
+  /* Buttons smaller so they don’t overflow */
+  .lead-actions button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+}
