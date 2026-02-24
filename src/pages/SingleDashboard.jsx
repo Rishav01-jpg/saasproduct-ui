@@ -370,10 +370,13 @@ const cancelCall = async (callId) => {
 </div>
 
 
-              <div className="card clickable">
-                <h3>Contacts</h3>
-                <p>Customer & client contacts</p>
-              </div>
+             <div
+  className="card clickable"
+  onClick={() => navigate(`/dashboard/${id}/analytics`)}
+>
+  <h3>Analytics</h3>
+  <p>View performance & insights</p>
+</div>
 
               <div
                 className="card clickable"

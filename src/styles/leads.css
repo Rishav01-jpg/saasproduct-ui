@@ -791,3 +791,114 @@ html, body, #root {
   }
 
 }
+.funnel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.funnel-box {
+  background: linear-gradient(145deg, #1a0933, #2d0b52);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.analytics-box {
+  background: linear-gradient(145deg, #1b0c3d, #2a0f5e);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.analytics-box span {
+  display: block;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.analytics-box strong {
+  font-size: 20px;
+  margin-top: 6px;
+  display: block;
+}
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #1b0c3d;
+  color: white;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #7c3aed;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin-top: 15px;
+}
+
+.analytics-box {
+  background: linear-gradient(145deg, #1b0c3d, #2a0f5e);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+}
+
+.funnel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.funnel-box {
+  background: linear-gradient(145deg, #1a0933, #2d0b52);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  color: #fff;
+  font-weight: bold;
+}
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #1b0c3d;
+  color: white;
+  cursor: pointer;
+}
+
+.filter-btn.active {
+  background: #7c3aed;
+}

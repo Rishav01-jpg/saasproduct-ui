@@ -10,7 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Leads from "./pages/Leads";
 import CallHistory from "./pages/CallHistory";
-
+import Analytics from "./pages/Analytics";
 
 import "./styles/theme.css";
 
@@ -69,7 +69,14 @@ export default function App() {
     </ProtectedRoute>
   }
 />
-
+<Route
+  path="/dashboard/:id/analytics"
+  element={
+    <ProtectedRoute>
+      <Analytics />
+    </ProtectedRoute>
+  }
+/>
 
 
 
