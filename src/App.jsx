@@ -11,7 +11,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import Leads from "./pages/Leads";
 import CallHistory from "./pages/CallHistory";
 import Analytics from "./pages/Analytics";
-
+import BookDemo from "./pages/BookDemo";
 import "./styles/theme.css";
 
 export default function App() {
@@ -51,6 +51,8 @@ export default function App() {
 />
 
 <Route path="/" element={<Landing />} />
+
+<Route path="/book-demo" element={<BookDemo />} />
 <Route path="/plans" element={<Plans />} />
 <Route
   path="/dashboard/:id/leads"

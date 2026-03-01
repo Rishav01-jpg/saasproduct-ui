@@ -161,7 +161,7 @@ export default function Plans() {
             Choose Your <span>Perfect Plan</span>
           </h1>
           <p>
-            Simple pricing. Powerful features. No hidden charges.
+            Every plan is billed yearly . No hidden charges.
           </p>
         </section>
 
@@ -170,12 +170,15 @@ export default function Plans() {
           {/* BASIC */}
           <div className="plan-card">
             <h3>Basic</h3>
-            <div className="price">₹4000 <span>/year</span></div>
+            <div className="price">₹499 <span>/month</span></div>
+            <span>Billed Yearly</span>
+            
             <ul className="features">
-              <li>✔ Auto Calling</li>
-              <li>✔ Lead Management</li>
-              <li>✔ Dashboard Access</li>
-              <li>✔ Email Support</li>
+              <li>✔ Auto Calling(Sim-Based)</li>
+              <li>✔ Contact Management</li>
+              <li>✔ 1 Dashboard Access</li>
+              <li>✔ unlimited Staff and Manager Access</li>
+              <li>✔ 24/7 Customer Support</li>
             </ul>
             <button onClick={() => buyPlan("Basic")}>
               Get Started
@@ -186,12 +189,14 @@ export default function Plans() {
           <div className="plan-card popular">
             <div className="badge">Most Popular</div>
             <h3>Pro</h3>
-            <div className="price">₹6000 <span>/year</span></div>
+            <div className="price">₹899 <span>/month</span></div>
+            <span>Billed Yearly</span>
             <ul className="features">
-              <li>✔ Everything in Basic</li>
-              <li>✔ Advanced Calling</li>
-              <li>✔ Team Management</li>
-              <li>✔ Priority Support</li>
+              <li>✔ Auto Calling(Sim-Based)</li>
+              <li>✔ Contact Management</li>
+              <li>✔ 2 Dashboard Access</li>
+              <li>✔ unlimited Staff and Manager Access</li>
+              <li>✔ 24/7 Customer Support</li>
             </ul>
             <button onClick={() => buyPlan("Pro")}>
               Get Started
@@ -199,17 +204,20 @@ export default function Plans() {
           </div>
 
           {/* ENTERPRISE */}
-          <div className="plan-card">
+           <div className="plan-card">
             <h3>Enterprise</h3>
-            <div className="price">Custom</div>
+            <div className="price">₹1599 <span>/month</span></div>
+            <span>Billed Yearly</span>
+            
             <ul className="features">
-              <li>✔ Unlimited Users</li>
-              <li>✔ Custom CRM Setup</li>
-              <li>✔ Dedicated Support</li>
-              <li>✔ SLA & Integrations</li>
+              <li>✔ Auto Calling(Sim-Based)</li>
+              <li>✔ Contact Management</li>
+              <li>✔ Unlimited Dashboard Access</li>
+              <li>✔ unlimited Staff and Manager Access</li>
+              <li>✔ 24/7 Customer Support</li>
             </ul>
             <button onClick={() => buyPlan("Enterprise")}>
-              Contact Sales
+              Get Started
             </button>
           </div>
         </section>

@@ -231,56 +231,80 @@ export default function Landing() {
         {/* NAVBAR */}
         <header className="navbar">
           <div className="logo">Ring Ring CRM</div>
-          <div className="nav-links">
-            <a href="/login">Login</a>
-            <a href="/signup">Signup</a>
-            <button onClick={handleGetStarted}>Get Started</button>
-          </div>
+        <div className="nav-links">
+  <a href="/login">Login</a>
+  <a href="/signup">Signup</a>
+  <button
+  onClick={() => navigate("/book-demo")}
+  style={{
+    background: "transparent",
+    border: "1px solid #ec4899",
+    color: "#ec4899"
+  }}
+>
+  Book Demo
+</button>
+  <button onClick={handleGetStarted}>Get Started</button>
+</div>
         </header>
 
         {/* HERO */}
         <section className="hero">
           <h1>
-            Build Your <span>Custom CRM</span><br />
-            Automate Calls. Close Faster.
+             <span>Ring Ring CRM</span><br />
+            Upload Your contacts, Start Calling, and Grow Faster
           </h1>
           <p>
-            A futuristic CRM designed for high-performance sales teams.
-            Manage leads, automate calls, and grow faster — all in one platform.
+          Accelerate Your Business
+Eliminate manual dialing and instantly log every call and outcome. Focus 100% on the conversation.
           </p>
-          <div className="hero-buttons">
-            <button className="btn-primary" onClick={handleGetStarted}>
-              Get Started
-            </button>
-            <button className="btn-secondary" onClick={() => navigate("/login")}>
-              Login
-            </button>
-          </div>
+         <div className="hero-buttons">
+  <button className="btn-primary" onClick={handleGetStarted}>
+    Get Started
+  </button>
+
+ <button
+  className="btn-secondary"
+  style={{ border: "1px solid #ec4899", color: "#e764a5ff" }}
+  onClick={() => navigate("/book-demo")}
+>
+  Book Demo
+</button>
+
+  <button
+    className="btn-secondary"
+    onClick={() => navigate("/login")}
+  >
+    Login
+  </button>
+</div>
         </section>
+        
 
         {/* FEATURES */}
         <section className="features">
           <div className="feature-card">
-            <h3>📞 Auto Calling</h3>
+            <h3> Auto Calling</h3>
             <p>Instantly call leads with smart automation.</p>
           </div>
           <div className="feature-card">
-            <h3>📊 Lead Management</h3>
+            <h3> Contact Management</h3>
             <p>Track, filter and convert leads efficiently.</p>
           </div>
           <div className="feature-card">
-            <h3>⚡ Fast & Secure</h3>
-            <p>Built for speed, security and scalability.</p>
+            <h3> Csv Import & Export</h3>
+            <p>Import and Export contacts in CSV format.</p>
           </div>
           <div className="feature-card">
-            <h3>📱 Any Device</h3>
-            <p>Perfect experience on mobile, tablet & desktop.</p>
+            <h3> Analytics </h3>
+            <p>Track and analyze call metrics, conversion rates, and more.</p>
           </div>
         </section>
 
+
         {/* REVIEWS */}
         <section className="reviews">
-          <h2>Trusted by Sales Teams</h2>
+          <h2>Trusted by Business Owner</h2>
           <div className="review-grid">
             <div className="review-card">
               ⭐⭐⭐⭐⭐
@@ -302,7 +326,7 @@ export default function Landing() {
 
         {/* CTA */}
         <section className="cta">
-          <h2>Start Building Your CRM Today</h2>
+          <h2>Start Calling Your Contacts Today and Eliminate Manual Dialing</h2>
           <button onClick={handleGetStarted}>Get Started Now</button>
         </section>
 
