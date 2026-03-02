@@ -18,7 +18,7 @@ export default function BookDemo() {
     setMessage("Booking demo...");
 
     try {
-      const res = await fetch("https://saasproduct-backend.onrender.com/api/demo/book-demo", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/demo/book-demo`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
