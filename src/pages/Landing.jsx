@@ -285,11 +285,11 @@ Eliminate manual dialing and instantly log every call and outcome. Focus 100% on
         <section className="features">
           <div className="feature-card">
             <h3> Auto Calling</h3>
-            <p>Instantly call leads with smart automation.</p>
+            <p>Instantly call your Contacts with smart automation.</p>
           </div>
           <div className="feature-card">
             <h3> Contact Management</h3>
-            <p>Track, filter and convert leads efficiently.</p>
+            <p>Track, filter and convert Contacts efficiently.</p>
           </div>
           <div className="feature-card">
             <h3> Csv Import & Export</h3>
