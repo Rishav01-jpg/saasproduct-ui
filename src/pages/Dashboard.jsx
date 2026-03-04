@@ -156,7 +156,13 @@ useEffect(() => {
   <aside className="sidebar">
   <div className="sidebar-top">
     <h2 className="logo">CRM</h2>
-    <p className="role-text">Admin Panel</p>
+    <p className="role-text">
+  {role === "admin"
+    ? "Admin Panel"
+    : role === "manager"
+    ? "Manager Panel"
+    : "Staff Panel"}
+</p>
 
     <div className="workspace-box">
       <p className="workspace-title">Workspaces</p>
