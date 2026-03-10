@@ -902,3 +902,82 @@ html, body, #root {
 .filter-btn.active {
   background: #7c3aed;
 }
+/* Lead Assignment Card */
+
+.assignment-card {
+  margin-top: 25px;
+}
+
+/* Scroll wrapper for mobile */
+
+.assignment-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table styling */
+
+.assignment-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.assignment-table th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.assignment-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.assignment-table tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Status badges */
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status-new {
+  background: #3b82f6;
+  color: white;
+}
+
+.status-qualified {
+  background: #22c55e;
+  color: white;
+}
+
+.status-lost {
+  background: #ef4444;
+  color: white;
+}
+
+.status-won {
+  background: #10b981;
+  color: white;
+}
+
+/* Mobile layout */
+
+@media (max-width: 768px) {
+
+  .assignment-table {
+    font-size: 13px;
+  }
+
+  .assignment-table th,
+  .assignment-table td {
+    padding: 8px;
+  }
+
+}

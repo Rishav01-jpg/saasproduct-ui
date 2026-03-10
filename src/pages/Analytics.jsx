@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   PieChart,
@@ -15,11 +15,14 @@ import {
 } from "recharts";
 import "../styles/leads.css";
 
+
 const COLORS = ["#7c3aed", "#22c55e", "#ef4444", "#f59e0b", "#3b82f6", "#14b8a6"];
 
 const Analytics = () => {
   const { id: dashboardId } = useParams();
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+const role = localStorage.getItem("role");
 
   const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -33,6 +36,11 @@ const Analytics = () => {
     outcomes: [],
     leadSources: []
   });
+const [staffStats, setStaffStats] = useState([]);
+const [leadAssignments, setLeadAssignments] = useState([]);
+useEffect(() => {
+ 
+}, []);
 
   const fetchAnalytics = async (selectedPeriod) => {
     try {
@@ -44,14 +52,40 @@ const Analytics = () => {
       console.error("Analytics error", err);
     }
   };
+const fetchStaffDistribution = async () => {
+  try {
+    const res = await api.get("/api/leads/stats/staff-distribution", {
+  params: { dashboardId }
+});
 
-  useEffect(() => {
-    if (dashboardId) fetchAnalytics(period);
-  }, [dashboardId, period]);
+    setStaffStats(res.data);
 
+  } catch (err) {
+    console.error("Staff distribution error", err);
+  }
+};
+const fetchLeadAssignments = async () => {
+  try {
+    const res = await api.get("/api/leads/stats/lead-assignments", {
+      params: { dashboardId }
+    });
+
+    setLeadAssignments(res.data);
+
+  } catch (err) {
+    console.error("Assignment fetch error", err);
+  }
+};
+useEffect(() => {
+  if (dashboardId) {
+    fetchAnalytics(period);
+    fetchStaffDistribution();
+    fetchLeadAssignments();
+  }
+}, [dashboardId, period]);
   return (
     <div className="leads-page">
-      <h2 className="page-title">📊 Detailed Analytics</h2>
+      <h2 className="page-title"> Detailed Analytics</h2>
 
       {/* DATE FILTER */}
       <div className="filter-bar">
@@ -102,6 +136,8 @@ const Analytics = () => {
         </ResponsiveContainer>
       </div>
 
+      
+
       {/* LEAD SOURCES BAR CHART */}
       <div className="card">
         <h3>Lead Sources</h3>
@@ -114,6 +150,68 @@ const Analytics = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
+
+      {/* STAFF LEAD DISTRIBUTION */}
+{role !== "staff" && (
+<div className="card">
+  <h3>👥 Staff Lead Distribution</h3>
+
+  <ResponsiveContainer width="100%" height={300}>
+    <BarChart data={staffStats}>
+      <XAxis dataKey="staffName" stroke="#fff" />
+      <YAxis stroke="#fff" />
+      <Tooltip />
+      <Bar dataKey="totalLeads" fill="#22c55e" radius={[6, 6, 0, 0]} />
+    </BarChart>
+  </ResponsiveContainer>
+</div>
+)}
+
+{/* LEAD ASSIGNMENT REPORT */}
+
+{role !== "staff" && (
+<div className="card assignment-card">
+  <h3> Lead Assignment Report</h3>
+
+  <div className="assignment-table-wrapper">
+    <table className="assignment-table">
+      <thead>
+        <tr>
+          <th>Lead</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Assigned To</th>
+          <th>Assigned By</th>
+        </tr>
+      </thead>
+
+     <tbody>
+  {leadAssignments.map((lead) => (
+    <tr key={lead._id}>
+      <td data-label="Lead">{lead.name}</td>
+
+      <td data-label="Phone">{lead.phone}</td>
+
+      <td data-label="Status">
+        <span className={`status-badge status-${lead.status?.toLowerCase()}`}>
+          {lead.status}
+        </span>
+      </td>
+
+      <td data-label="Assigned To">
+        {lead.assignedTo?.name || "Unassigned"}
+      </td>
+
+      <td data-label="Assigned By">
+        {lead.assignedBy?.name || "-"}
+      </td>
+    </tr>
+  ))}
+</tbody>
+    </table>
+  </div>
+</div>
+)}
     </div>
   );
 };

@@ -7,6 +7,7 @@ import "../styles/leads.css";
 const Leads = () => {
   const { id: dashboardId } = useParams(); // ⭐ GET DASHBOARD ID FROM URL
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
@@ -20,7 +21,10 @@ const Leads = () => {
 const [showScheduleModal, setShowScheduleModal] = useState(false);
 const [selectedLead, setSelectedLead] = useState(null);
 const [scheduledAt, setScheduledAt] = useState("");
-
+const [showAssignModal, setShowAssignModal] = useState(false);
+const [assignLeadId, setAssignLeadId] = useState(null);
+const [staffList, setStaffList] = useState([]);
+const [selectedStaff, setSelectedStaff] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -434,6 +438,66 @@ const checkExotelConnection = async () => {
     setIsExotelConnected(false);
   }
 };
+const fetchStaff = async () => {
+  try {
+
+    const res = await api.get("/api/users/staff", {
+      params: { dashboardId }
+    });
+
+    setStaffList(res.data);
+
+  } catch (err) {
+    console.error("Failed to fetch staff");
+  }
+};
+
+const openAssignModal = async (leadId) => {
+  setAssignLeadId(leadId);
+  await fetchStaff();
+  setShowAssignModal(true);
+};
+
+const assignLead = async () => {
+
+  if (!selectedStaff) {
+    alert("Select staff");
+    return;
+  }
+
+  try {
+
+    // ⭐ BULK ASSIGN
+    if (!assignLeadId) {
+
+      await api.put("/api/leads/assign-bulk", {
+        leadIds: selectedLeads,
+        staffId: selectedStaff
+      });
+
+      alert("Leads assigned successfully");
+
+    } else {
+
+      // ⭐ SINGLE ASSIGN
+      await api.put(`/api/leads/assign/${assignLeadId}`, {
+        staffId: selectedStaff
+      });
+
+      alert("Lead assigned");
+
+    }
+
+    setShowAssignModal(false);
+    setSelectedStaff("");
+    setSelectedLeads([]);
+
+    fetchLeads();
+
+  } catch (err) {
+    alert("Failed to assign leads");
+  }
+};
 const callSingleLead = async (lead) => {
   if (!lead.phone) {
     alert("No phone number");
@@ -684,14 +748,30 @@ useEffect(() => {
       
 
       {/* BULK */}
-      <div className="bulk-bar">
-        <label><input type="checkbox" onChange={toggleSelectAll}/> Select All</label>
-        {selectedLeads.length > 0 && (
-          <button className="bulk-delete-btn" onClick={bulkDelete}>
-            Delete Selected ({selectedLeads.length})
-          </button>
-        )}
-      </div>
+     <div className="bulk-bar">
+  <label>
+    <input type="checkbox" onChange={toggleSelectAll}/> Select All
+  </label>
+
+{selectedLeads.length > 0 && (role === "admin" || role === "manager") && (
+  <button
+    className="assign-btn"
+    onClick={() => {
+      setAssignLeadId(null);
+      fetchStaff();
+      setShowAssignModal(true);
+    }}
+  >
+    Assign Selected ({selectedLeads.length})
+  </button>
+)}
+
+  {selectedLeads.length > 0 && (
+    <button className="bulk-delete-btn" onClick={bulkDelete}>
+      Delete Selected ({selectedLeads.length})
+    </button>
+  )}
+</div>
 
       {/* LEADS LIST */}
       <div className="card">
@@ -736,7 +816,14 @@ useEffect(() => {
 >
   📞
 </button>
-
+{(role === "admin" || role === "manager") && (
+  <button
+    className="assign-btn"
+    onClick={() => openAssignModal(lead._id)}
+  >
+    Assign
+  </button>
+)}
 
   <button
     className="schedule-btn"
@@ -948,7 +1035,33 @@ useEffect(() => {
     </div>
   </div>
 )}
+{showAssignModal && (
+  <div className="modal-overlay">
+    <div className="modal-box">
+      <h3>Assign Lead</h3>
 
+      <select
+        value={selectedStaff}
+        onChange={(e) => setSelectedStaff(e.target.value)}
+      >
+        <option value="">Select Staff</option>
+
+        {staffList.map((staff) => (
+          <option key={staff._id} value={staff._id}>
+            {staff.name} ({staff.email})
+          </option>
+        ))}
+      </select>
+
+      <div style={{ marginTop: "15px" }}>
+        <button onClick={assignLead}>Assign</button>
+        <button onClick={() => setShowAssignModal(false)}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };
