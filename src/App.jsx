@@ -13,6 +13,7 @@ import CallHistory from "./pages/CallHistory";
 import Analytics from "./pages/Analytics";
 import BookDemo from "./pages/BookDemo";
 import "./styles/theme.css";
+import StaffPerformance from "./pages/StaffPerformance";
 
 export default function App() {
   return (
@@ -79,7 +80,14 @@ export default function App() {
     </ProtectedRoute>
   }
 />
-
+<Route
+  path="/dashboard/:id/staff-performance"
+  element={
+    <ProtectedRoute>
+      <StaffPerformance />
+    </ProtectedRoute>
+  }
+/>
 
 
 

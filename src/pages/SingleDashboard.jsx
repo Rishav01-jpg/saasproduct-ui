@@ -378,6 +378,16 @@ const cancelCall = async (callId) => {
   <p>View performance & insights</p>
 </div>
 
+{role === "admin" && (
+  <div
+    className="card clickable"
+    onClick={() => navigate(`/dashboard/${id}/staff-performance`)}
+  >
+    <h3>Staff Performance</h3>
+    <p>View staff & manager performance</p>
+  </div>
+)}
+
               <div
                 className="card clickable"
                 onClick={() => {

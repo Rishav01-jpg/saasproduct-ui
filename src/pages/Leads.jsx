@@ -471,9 +471,10 @@ const assignLead = async () => {
     if (!assignLeadId) {
 
       await api.put("/api/leads/assign-bulk", {
-        leadIds: selectedLeads,
-        staffId: selectedStaff
-      });
+    leadIds: selectedLeads,
+    staffId: selectedStaff,
+    dashboardId: dashboardId
+  });
 
       alert("Leads assigned successfully");
 

@@ -292,10 +292,14 @@
     display: none;
   }
 
-  /* Hide repeated labels */
-  .call-history-page .cell-label {
-    display: none;
-  }
+  
+ /* Show labels on mobile so values are understandable */
+.call-history-page .cell-label {
+  display: block;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 2px;
+}
 
   .call-history-page .cell {
     white-space: normal;
@@ -356,4 +360,32 @@
   max-width: 260px;    /* prevents stretching on large screens */
   margin: 10px auto 16px; /* center + spacing */
   display: block;
+}
+/* ================= STAFF PERFORMANCE DESKTOP FIX ================= */
+
+.staff-performance-page .call-history-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+/* stretch card on large screens */
+.staff-performance-page .card {
+  width: 100%;
+}
+
+/* make table header match staff columns */
+.staff-performance-page .table-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+/* mobile staff layout */
+@media (max-width: 768px) {
+
+  .staff-performance-page .call-history-row {
+    display: block;
+  }
+
 }

@@ -177,7 +177,7 @@ export default function Plans() {
               <li>✔ Auto Calling(Sim-Based)</li>
               <li>✔ Contact Management</li>
               <li>✔ 1 Dashboard Access</li>
-              <li>✔ unlimited Staff and Manager Access</li>
+              <li>✔ 1 Staff and 1 Manager Access</li>
               <li>✔ 24/7 Customer Support</li>
             </ul>
             <button onClick={() => buyPlan("Basic")}>
@@ -195,7 +195,7 @@ export default function Plans() {
               <li>✔ Auto Calling(Sim-Based)</li>
               <li>✔ Contact Management</li>
               <li>✔ 2 Dashboard Access</li>
-              <li>✔ unlimited Staff and Manager Access</li>
+              <li>✔ 2 Staff and 2 Manager Access</li>
               <li>✔ 24/7 Customer Support</li>
             </ul>
             <button onClick={() => buyPlan("Pro")}>
@@ -213,7 +213,7 @@ export default function Plans() {
               <li>✔ Auto Calling(Sim-Based)</li>
               <li>✔ Contact Management</li>
               <li>✔ Unlimited Dashboard Access</li>
-              <li>✔ unlimited Staff and Manager Access</li>
+              <li>✔ unlimited Staff and unlimited Manager Access</li>
               <li>✔ 24/7 Customer Support</li>
             </ul>
             <button onClick={() => buyPlan("Enterprise")}>

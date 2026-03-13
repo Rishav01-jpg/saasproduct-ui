@@ -1016,3 +1016,103 @@ html, body, #root {
 .assign-btn:hover {
   transform: translateY(-2px);
 }
+/* ===============================
+   STAFF PERFORMANCE PAGE
+================================ */
+
+.performance-page {
+  padding: 25px;
+  color: #ffffff;
+}
+
+.performance-header h2 {
+  font-size: 26px;
+  margin-bottom: 5px;
+}
+
+.performance-header p {
+  color: #cfcfcf;
+  margin-bottom: 20px;
+}
+
+/* TABLE WRAPPER */
+
+.performance-table-wrapper {
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 15px;
+  overflow-x: auto;
+}
+
+/* TABLE */
+
+.performance-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.performance-table th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+.performance-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.performance-table tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+/* STAFF NAME */
+
+.staff-name {
+  font-weight: 600;
+}
+
+/* ROLE BADGE */
+
+.role-badge {
+  text-transform: capitalize;
+  background: rgba(0, 140, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* CONVERSION */
+
+.conversion {
+  font-weight: bold;
+  color: #00e676;
+}
+
+/* EMPTY */
+
+.empty-row {
+  text-align: center;
+  padding: 20px;
+  color: #aaa;
+}
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+
+@media (max-width: 768px) {
+
+  .performance-header h2 {
+    font-size: 22px;
+  }
+
+  .performance-table th,
+  .performance-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+}
