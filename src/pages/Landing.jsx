@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { isTokenValid } from "../utils/auth";
-
+import logo from "../assets/logo.png";
 export default function Landing() {
   const navigate = useNavigate();
 
@@ -79,7 +79,7 @@ export default function Landing() {
 
         /* HERO */
         .hero {
-          padding: 100px 8% 80px;
+          padding: 60px 8% 10px;
           text-align: center;
         }
 
@@ -128,33 +128,111 @@ export default function Landing() {
           cursor: pointer;
         }
 
+        /* PRODUCT PREVIEW */
+        .product-preview {
+          padding: 0 8% 80px;
+          text-align: center;
+        }
+
+        .preview-container {
+          position: relative;
+          max-width: 1000px;
+          margin: 0 auto;
+          border-radius: 20px;
+          overflow: hidden;
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-container img {
+          width: 100%;
+          display: block;
+          filter: brightness(0.9);
+        }
+
         /* FEATURES */
         .features {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 24px;
-          padding: 80px 8%;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 30px;
+          padding: 60px 8%;
         }
 
         .feature-card {
           background: rgba(255, 255, 255, 0.06);
           border-radius: 18px;
-          padding: 26px;
+          padding: 30px;
           backdrop-filter: blur(12px);
-          transition: transform 0.3s ease;
+          transition: transform 0.3s ease, background 0.3s ease;
+          border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .feature-card:hover {
-          transform: translateY(-6px);
+          transform: translateY(-8px);
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-img {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          border-radius: 12px;
+          margin-bottom: 20px;
         }
 
         .feature-card h3 {
-          margin-bottom: 10px;
+          margin-bottom: 12px;
+          font-size: 20px;
+        }
+
+        /* INFO SECTIONS */
+        .info-section {
+          display: flex;
+          align-items: flex-start;
+          gap: 60px;
+          padding: 70px 8%;
+        }
+
+        .info-section.reverse {
+          flex-direction: row-reverse;
+        }
+
+        .info-content {
+          flex: 1;
+        }
+
+        .info-content h2 {
+          font-size: clamp(28px, 4vw, 40px);
+          margin-bottom: 20px;
+          line-height: 1.2;
+        }
+
+        .info-content p {
+          color: #bbb;
+          font-size: 18px;
+          line-height: 1.6;
+        }
+
+        .info-image {
+          flex: 1;
+          border-radius: 24px;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-image img {
+          width: 100%;
+          display: block;
+          transition: transform 0.5s ease;
+        }
+
+        .info-image:hover img {
+          transform: scale(1.05);
         }
 
         /* REVIEWS */
         .reviews {
-          padding: 80px 8%;
+          padding: 20px 8%;
           text-align: center;
         }
 
@@ -209,7 +287,7 @@ export default function Landing() {
 
         /* FOOTER */
         .footer {
-          padding: 30px;
+          padding: 10px;
           text-align: center;
           color: #777;
           font-size: 14px;
@@ -224,13 +302,76 @@ export default function Landing() {
           .hero {
             padding-top: 80px;
           }
+
+          .info-section, .info-section.reverse {
+            flex-direction: column;
+            gap: 30px;
+            text-align: center;
+          }
+
+          .info-image {
+            order: -1;
+          }
         }
+          /* CONTACT */
+.contact {
+  padding: 20px 8%;
+  text-align: center;
+}
+
+.contact h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.contact p {
+  color: #bbb;
+  margin-bottom: 30px;
+}
+
+.contact-box {
+  max-width: 500px;
+  margin: auto;
+  padding: 30px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.contact-box p {
+  font-size: 18px;
+  margin: 12px 0;
+}
+
+.contact-box a {
+  color: #ec4899;
+  text-decoration: none;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.logo-img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+}
       `}</style>
 
       <div className="landing">
         {/* NAVBAR */}
         <header className="navbar">
-          <div className="logo">Ring Ring CRM</div>
+          <div className="logo">
+  <img src={logo} alt="logo" className="logo-img" />
+  <span>Ring Ring CRM</span>
+</div>
         <div className="nav-links">
   <a href="/login">Login</a>
   <a href="/signup">Signup</a>
@@ -279,25 +420,72 @@ Eliminate manual dialing and instantly log every call and outcome. Focus 100% on
   </button>
 </div>
         </section>
-        
+
+        {/* INFO SECTION 1 */}
+        <section className="info-section">
+          <div className="info-content">
+            <h2>Streamline Your Sales Process</h2>
+            <p>
+             Our intuitive and user-friendly interface is designed to simplify your workflow, allowing your team to focus on what truly matters—building strong customer relationships. Instead of dealing with complex systems or manual tasks, your team can work efficiently and stay engaged with leads.
+
+With automated logging, every interaction is recorded seamlessly, saving time and ensuring no detail is missed. Instant access to contact information allows for quicker, more personalized conversations, helping your team stay organized and never miss an opportunity to connect.
+
+            </p>
+          </div>
+          <div className="info-image">
+            <img 
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800" 
+              alt="Sales Team" 
+            />
+          </div>
+        </section>
 
         {/* FEATURES */}
         <section className="features">
           <div className="feature-card">
+            <img 
+              className="feature-img" 
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=400" 
+              alt="Auto Calling" 
+            />
             <h3> Auto Calling</h3>
             <p>Instantly call your Contacts with smart automation.</p>
           </div>
           <div className="feature-card">
+            <img 
+              className="feature-img" 
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=400" 
+              alt="Contact Management" 
+            />
             <h3> Contact Management</h3>
             <p>Track, filter and convert Contacts efficiently.</p>
           </div>
           <div className="feature-card">
-            <h3> Csv Import & Export</h3>
-            <p>Import and Export contacts in CSV format.</p>
-          </div>
-          <div className="feature-card">
+            <img 
+              className="feature-img" 
+              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=400" 
+              alt="Analytics" 
+            />
             <h3> Analytics </h3>
             <p>Track and analyze call metrics, conversion rates, and more.</p>
+          </div>
+        </section>
+
+        {/* INFO SECTION 2 (REVERSED) */}
+        <section className="info-section reverse">
+          <div className="info-content">
+            <h2>Data-Driven Decisions</h2>
+            <p>
+             Gain valuable and in-depth insights into your sales performance with ease. Our advanced analytics tools provide a clear and detailed view of your data, helping you understand customer behavior, track key metrics, and uncover important trends. By analyzing this information, you can make smarter, data-driven decisions that improve your overall strategy.
+
+With these powerful insights, you can identify what’s working, eliminate inefficiencies, and optimize your workflow for better productivity. This ultimately helps you streamline your sales process, enhance team performance, and significantly boost your conversion rates, leading to consistent business growth.
+            </p>
+          </div>
+          <div className="info-image">
+            <img 
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" 
+              alt="Data Analytics" 
+            />
           </div>
         </section>
 
@@ -323,7 +511,27 @@ Eliminate manual dialing and instantly log every call and outcome. Focus 100% on
             </div>
           </div>
         </section>
+{/* CONTACT US */}
+<section className="contact">
+  <h2>Contact Us</h2>
+  <p>Have questions? We’re here to help you .</p>
 
+  <div className="contact-box">
+    <p>
+      📧 <strong>Email:</strong>{" "}
+      <a href="mailto:support@ringringcrm.com">
+        support@ringringcrm.com
+      </a>
+    </p>
+
+    <p>
+      📞 <strong>Phone:</strong>{" "}
+      <a href="tel:8210690050">
+        +91 8210690050
+      </a>
+    </p>
+  </div>
+</section>
         {/* CTA */}
         <section className="cta">
           <h2>Start Calling Your Contacts Today and Eliminate Manual Dialing</h2>
