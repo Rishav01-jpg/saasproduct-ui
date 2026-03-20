@@ -25,6 +25,7 @@ export default function Landing() {
 
       .landing {
   min-height: 100vh;
+  overflow-x: hidden;
 
   background:
     linear-gradient(
@@ -48,12 +49,32 @@ export default function Landing() {
           justify-content: space-between;
           align-items: center;
           padding: 20px 8%;
+          width: 100%;
+          box-sizing: border-box;
         }
 
         .logo {
+          display: flex;
+          align-items: center;
+          gap: 10px;
           font-size: 22px;
           font-weight: 700;
           letter-spacing: 1px;
+          flex-shrink: 1;
+          min-width: 0;
+        }
+
+        .logo span {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .logo-img {
+          width: 76px;
+          height: 76px;
+          object-fit: contain;
+          flex-shrink: 0;
         }
 
         .nav-links {
@@ -81,12 +102,16 @@ export default function Landing() {
         .hero {
           padding: 60px 8% 10px;
           text-align: center;
+          width: 100%;
+          box-sizing: border-box;
         }
 
         .hero h1 {
-          font-size: clamp(32px, 6vw, 56px);
+          font-size: clamp(28px, 6vw, 56px);
           line-height: 1.2;
           margin-bottom: 20px;
+          word-wrap: break-word;
+          overflow-wrap: anywhere;
         }
 
         .hero span {
@@ -202,7 +227,7 @@ export default function Landing() {
         }
 
         .info-content h2 {
-          font-size: clamp(28px, 4vw, 40px);
+          font-size: clamp(24px, 4vw, 40px);
           margin-bottom: 20px;
           line-height: 1.2;
         }
@@ -293,76 +318,162 @@ export default function Landing() {
           font-size: 14px;
         }
 
+        /* CONTACT */
+        .contact {
+          padding: 20px 8%;
+          text-align: center;
+        }
+
+        .contact h2 {
+          font-size: 32px;
+          margin-bottom: 10px;
+        }
+
+        .contact p {
+          color: #bbb;
+          margin-bottom: 30px;
+        }
+
+        .contact-box {
+          max-width: 500px;
+          margin: auto;
+          padding: 30px;
+          border-radius: 18px;
+          background: rgba(255, 255, 255, 0.06);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .contact-box p {
+          font-size: 18px;
+          margin: 12px 0;
+        }
+
+        .contact-box a {
+          color: #ec4899;
+          text-decoration: none;
+        }
+
         /* MOBILE */
         @media (max-width: 768px) {
+          .navbar {
+            padding: 15px 4%;
+            flex-direction: column;
+            gap: 15px;
+          }
+
+          .logo {
+            font-size: 18px;
+          }
+
+          .logo-img {
+            width: 50px;
+            height: 50px;
+          }
+
+          .nav-links {
+            width: 100%;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+          }
+
           .nav-links a {
             display: none;
           }
 
+          .nav-links button {
+            padding: 8px 14px;
+            font-size: 13px;
+          }
+
           .hero {
-            padding-top: 80px;
+            padding: 40px 5% 10px;
+          }
+
+          .hero h1 {
+            font-size: clamp(22px, 7vw, 32px);
+          }
+
+          .hero p {
+            font-size: 14px;
+            padding: 0 10px;
+          }
+
+          .hero-buttons {
+            flex-direction: column;
+            align-items: stretch;
+            padding: 0 10px;
+          }
+
+          .btn-primary, .btn-secondary {
+            width: 100%;
+            padding: 12px 20px;
           }
 
           .info-section, .info-section.reverse {
             flex-direction: column;
             gap: 30px;
             text-align: center;
+            padding: 40px 5%;
+          }
+
+          .info-content h2 {
+            font-size: 22px;
+          }
+
+          .info-content p {
+            font-size: 15px;
           }
 
           .info-image {
             order: -1;
           }
+
+          .product-preview {
+            padding: 0 5% 40px;
+          }
+
+          .features {
+            padding: 40px 5%;
+            grid-template-columns: 1fr;
+          }
+
+          .contact-box {
+            padding: 20px;
+            margin: 0 10px;
+          }
         }
-          /* CONTACT */
-.contact {
-  padding: 20px 8%;
-  text-align: center;
-}
 
-.contact h2 {
-  font-size: 32px;
-  margin-bottom: 10px;
-}
+        /* EXTRA SMALL (Galaxy Z Fold 5 folded, etc.) */
+        @media (max-width: 380px) {
+          .navbar {
+            padding: 10px 2%;
+          }
 
-.contact p {
-  color: #bbb;
-  margin-bottom: 30px;
-}
+          .logo {
+            font-size: 16px;
+          }
 
-.contact-box {
-  max-width: 500px;
-  margin: auto;
-  padding: 30px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.08);
-}
+          .logo-img {
+            width: 40px;
+            height: 40px;
+          }
 
-.contact-box p {
-  font-size: 18px;
-  margin: 12px 0;
-}
+          .nav-links button {
+            padding: 6px 10px;
+            font-size: 12px;
+            flex: 1;
+          }
 
-.contact-box a {
-  color: #ec4899;
-  text-decoration: none;
-}
+          .hero h1 {
+            font-size: 20px;
+          }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.logo-img {
-  width: 76px;
-  height: 76px;
-  object-fit: contain;
-}
+          .hero-buttons {
+            padding: 0 5%;
+          }
+        }
       `}</style>
 
       <div className="landing">
