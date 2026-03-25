@@ -218,6 +218,9 @@ const callNextLead = async (index, type) => {
   }
 
   // show outcome popup
+  setTimeout(() => {
+    setShowOutcomeModal(true);
+  }, 1500);
 
 
 };
@@ -692,24 +695,7 @@ useEffect(() => {
   checkExotelConnection();
 }, [dashboardId, page, filters.search, filters.status, filters.source, filters.date]);
 
-useEffect(() => {
-  const handleVisibilityChange = () => {
-    // When user returns from call screen
-    if (!document.hidden) {
-      if (isCalling && selectedLead && !showOutcomeModal) {
-        setTimeout(() => {
-          setShowOutcomeModal(true);
-        }, 800);
-      }
-    }
-  };
 
-  document.addEventListener("visibilitychange", handleVisibilityChange);
-
-  return () => {
-    document.removeEventListener("visibilitychange", handleVisibilityChange);
-  };
-}, [isCalling, selectedLead, showOutcomeModal]);
 
   // ================= UI =================
   return (
