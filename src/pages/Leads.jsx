@@ -191,6 +191,7 @@ const callNextLead = async (index, type) => {
   }
 
   const lead = leads[index];
+  setSelectedLead(lead);
 
   //  SIM BASED CALLING
   callStartTimeRef.current = Date.now();
@@ -217,12 +218,7 @@ const callNextLead = async (index, type) => {
   }
 
   // show outcome popup
- setTimeout(() => {
-  if (!stopCallingRef.current) {
-    setSelectedLead(lead);
-    setShowOutcomeModal(true);
-  }
-}, 2000);
+
 
 };
 const saveAndOpenSchedule = async () => {
@@ -258,9 +254,10 @@ const saveAndOpenSchedule = async () => {
     });
 
     // ⭐ IMPORTANT: refresh UI
-    await fetchLeads();
-    await fetchStats();
-
+    if (!isCalling) {
+  await fetchLeads();
+  await fetchStats();
+}
     // 3️⃣ Open schedule modal
     setShowOutcomeModal(false);
     setShowScheduleModal(true);
@@ -312,9 +309,11 @@ const saveCallResult = async () => {
       status: callStatus
     });
 
-    // 3️⃣ Refresh UI
-    await fetchLeads();
-    await fetchStats();
+ // Refresh UI only if not auto calling
+if (!isCalling) {
+  await fetchLeads();
+  await fetchStats();
+}
 
     // 4️⃣ Reset timer
     callStartTimeRef.current = null;
@@ -371,7 +370,9 @@ const moveToNextCall = () => {
 
 
   setCurrentIndex(nextIndex);
+  setTimeout(() => {
   callNextLead(nextIndex, callType);
+}, 500);
 };
 
 const saveExotelKeys = async () => {
@@ -690,6 +691,20 @@ useEffect(() => {
   fetchFollowups();
   checkExotelConnection();
 }, [dashboardId, page, filters.search, filters.status, filters.source, filters.date]);
+
+useEffect(() => {
+  const handleFocus = () => {
+    if (isCalling && selectedLead && !showOutcomeModal) {
+      setShowOutcomeModal(true);
+    }
+  };
+
+  window.addEventListener("focus", handleFocus);
+
+  return () => {
+    window.removeEventListener("focus", handleFocus);
+  };
+}, [isCalling, selectedLead, showOutcomeModal]);
 
   // ================= UI =================
   return (

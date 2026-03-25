@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { isTokenValid } from "../utils/auth";
 import logo from "../assets/logo.png";
+import howitworks from "../assets/howitworks.png";
 export default function Landing() {
   const navigate = useNavigate();
 
@@ -474,6 +475,35 @@ export default function Landing() {
             padding: 0 5%;
           }
         }
+          /* HOW IT WORKS */
+.how-it-works {
+  padding: 80px 8%;
+  text-align: center;
+}
+
+.how-it-works h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.how-it-works p {
+  color: #bbb;
+  max-width: 700px;
+  margin: 0 auto 40px;
+}
+
+.how-image {
+  max-width: 1000px;
+  margin: auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.how-image img {
+  width: 100%;
+  display: block;
+}
       `}</style>
 
       <div className="landing">
@@ -581,7 +611,19 @@ With automated logging, every interaction is recorded seamlessly, saving time an
             <p>Track and analyze call metrics, conversion rates, and more.</p>
           </div>
         </section>
+{/* HOW IT WORKS */}
+<section className="how-it-works">
+  <h2>How Ring Ring CRM Works</h2>
+  <p>
+    Upload your leads, choose your calling method, and start auto calling.
+    The system automatically moves to the next lead, tracks call results,
+    and helps your team close more deals faster.
+  </p>
 
+  <div className="how-image">
+    <img src={howitworks} alt="How Ring Ring CRM Works" />
+  </div>
+</section>
         {/* INFO SECTION 2 (REVERSED) */}
         <section className="info-section reverse">
           <div className="info-content">
