@@ -106,7 +106,7 @@ const startCalling = async (type) => {
     callStartTimeRef.current = Date.now();
 
     if (type === "SIM") {
-      window.open(`tel:${lead.phone}`);
+     window.location.href = `tel:${lead.phone}`;
     }
 
     // ☁️ CLOUD CALL
@@ -693,16 +693,21 @@ useEffect(() => {
 }, [dashboardId, page, filters.search, filters.status, filters.source, filters.date]);
 
 useEffect(() => {
-  const handleFocus = () => {
-    if (isCalling && selectedLead && !showOutcomeModal) {
-      setShowOutcomeModal(true);
+  const handleVisibilityChange = () => {
+    // When user returns from call screen
+    if (!document.hidden) {
+      if (isCalling && selectedLead && !showOutcomeModal) {
+        setTimeout(() => {
+          setShowOutcomeModal(true);
+        }, 800);
+      }
     }
   };
 
-  window.addEventListener("focus", handleFocus);
+  document.addEventListener("visibilitychange", handleVisibilityChange);
 
   return () => {
-    window.removeEventListener("focus", handleFocus);
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
   };
 }, [isCalling, selectedLead, showOutcomeModal]);
 
