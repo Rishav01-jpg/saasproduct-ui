@@ -196,9 +196,9 @@ const callNextLead = async (index, type) => {
   //  SIM BASED CALLING
   callStartTimeRef.current = Date.now();
 
-  if (type === "SIM") {
-    window.open(`tel:${lead.phone}`);
-  }
+ if (type === "SIM") {
+  window.location.href = `tel:${lead.phone}`;
+}
 
   // ☁️ CLOUD CALLING
   if (type === "CLOUD") {
