@@ -516,6 +516,7 @@ export default function Landing() {
         <div className="nav-links">
   <a href="/login">Login</a>
   <a href="/signup">Signup</a>
+  <a href="/plans">Pricing</a>
   <button
   onClick={() => navigate("/book-demo")}
   style={{
@@ -553,12 +554,28 @@ Eliminate manual dialing and instantly log every call and outcome. Focus 100% on
   Book Demo
 </button>
 
+<button
+    className="btn-secondary"
+    onClick={() => navigate("/plans")}
+  >
+    Pricing
+  </button>
+
   <button
     className="btn-secondary"
     onClick={() => navigate("/login")}
   >
     Login
+
   </button>
+   <button
+    className="btn-secondary"
+    onClick={() => navigate("/signup")}
+  >
+    Signup
+  </button>
+
+   
 </div>
         </section>
 
@@ -567,7 +584,7 @@ Eliminate manual dialing and instantly log every call and outcome. Focus 100% on
           <div className="info-content">
             <h2>Streamline Your Sales Process</h2>
             <p>
-             Our intuitive and user-friendly interface is designed to simplify your workflow, allowing your team to focus on what truly matters—building strong customer relationships. Instead of dealing with complex systems or manual tasks, your team can work efficiently and stay engaged with leads.
+             Our intuitive and user-friendly interface is designed to simplify your workflow, allowing your team to focus on what truly matters—building strong customer relationships. Instead of dealing with complex systems or manual tasks, your team can work efficiently and stay engaged with contacts.
 
 With automated logging, every interaction is recorded seamlessly, saving time and ensuring no detail is missed. Instant access to contact information allows for quicker, more personalized conversations, helping your team stay organized and never miss an opportunity to connect.
 
@@ -615,8 +632,8 @@ With automated logging, every interaction is recorded seamlessly, saving time an
 <section className="how-it-works">
   <h2>How Ring Ring CRM Works</h2>
   <p>
-    Upload your leads, choose your calling method, and start auto calling.
-    The system automatically moves to the next lead, tracks call results,
+    Upload your contacts, choose your calling method, and start auto calling.
+    The system automatically moves to the next contact, tracks call results,
     and helps your team close more deals faster.
   </p>
 
@@ -692,9 +709,14 @@ With these powerful insights, you can identify what’s working, eliminate ineff
         </section>
 
         {/* FOOTER */}
-        <footer className="footer">
-          © {new Date().getFullYear()} Ring Ring CRM. All rights reserved.
-        </footer>
+       <footer className="footer">
+  © {new Date().getFullYear()} Ring Ring CRM. All rights reserved.
+  <br />
+  <a href="/about">About</a> |
+  <a href="/plans">Pricing</a> |
+  <a href="/login">Login</a> |
+  <a href="/signup">Signup</a>
+</footer>
       </div>
     </>
   );
