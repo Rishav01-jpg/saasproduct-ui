@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { startPayment } from "../utils/razorpay";
-
+import { Helmet } from "react-helmet-async";
 export default function Plans() {
   const navigate = useNavigate();
 
@@ -14,6 +14,11 @@ export default function Plans() {
 
   return (
     <>
+    <Helmet>
+  <title>Pricing - Ring Ring CRM</title>
+  <meta name="description" content="Check pricing plans of Ring Ring CRM. Affordable auto calling CRM for sales teams and businesses." />
+  <link rel="canonical" href="https://ringringcrm.com/plans" />
+</Helmet>
       <style>{`
         * {
           box-sizing: border-box;

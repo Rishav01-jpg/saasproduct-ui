@@ -15,6 +15,7 @@ import BookDemo from "./pages/BookDemo";
 import "./styles/theme.css";
 import StaffPerformance from "./pages/StaffPerformance";
 import AboutRingRing from "./pages/AboutRingRing";
+import AutoCallingPage from "./pages/AutoCallingPage";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<AboutRingRing />} />
+        <Route path="/crm-with-automatic-calling" element={<AutoCallingPage />} />
         <Route
   path="/dashboard"
   element={
@@ -53,7 +55,7 @@ export default function App() {
   }
 />
 
-<Route path="/" element={<Landing />} />
+
 
 <Route path="/book-demo" element={<BookDemo />} />
 <Route path="/plans" element={<Plans />} />

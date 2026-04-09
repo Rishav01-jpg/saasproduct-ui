@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { isTokenValid } from "../utils/auth";
 import logo from "../assets/logo.png";
 import howitworks from "../assets/howitworks.png";
+import { Helmet } from "react-helmet-async";
 export default function Landing() {
   const navigate = useNavigate();
 
@@ -15,6 +16,11 @@ export default function Landing() {
 
   return (
     <>
+    <Helmet>
+  <title>Ring Ring CRM - Auto Calling CRM for Sales Teams</title>
+  <meta name="description" content="Upload contacts, automatically call leads, track conversations and grow your sales with Ring Ring CRM." />
+  <link rel="canonical" href="https://ringringcrm.com/" />
+</Helmet>
       <style>{`
         * {
           box-sizing: border-box;
@@ -517,6 +523,7 @@ export default function Landing() {
   <a href="/login">Login</a>
   <a href="/signup">Signup</a>
   <a href="/plans">Pricing</a>
+  
   <button
   onClick={() => navigate("/book-demo")}
   style={{
@@ -715,7 +722,8 @@ With these powerful insights, you can identify what’s working, eliminate ineff
   <a href="/about">About</a> |
   <a href="/plans">Pricing</a> |
   <a href="/login">Login</a> |
-  <a href="/signup">Signup</a>
+  <a href="/signup">Signup</a> |
+  <a href="/crm-with-automatic-calling">Auto Dialer</a>
 </footer>
       </div>
     </>

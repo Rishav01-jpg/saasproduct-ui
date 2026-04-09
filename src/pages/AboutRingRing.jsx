@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { isTokenValid } from "../utils/auth";
 import logo from "../assets/logo2.png";
@@ -15,6 +16,12 @@ export default function AboutRingRing() {
   };
 
   return (
+    <>
+  <Helmet>
+    <title>About Ring Ring CRM</title>
+    <meta name="description" content="About Ring Ring CRM - auto calling CRM for managing leads, calls, and sales efficiently." />
+    <link rel="canonical" href="https://ringringcrm.com/about" />
+  </Helmet>
     <div style={styles.page}>
       <div style={styles.container}>
 
@@ -100,6 +107,7 @@ export default function AboutRingRing() {
 
       </div>
     </div>
+</>
   );
 }
 
