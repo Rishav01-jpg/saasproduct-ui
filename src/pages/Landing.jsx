@@ -510,6 +510,56 @@ export default function Landing() {
   width: 100%;
   display: block;
 }
+ .whatsapp-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  z-index: 999;
+}
+
+/* BIG BUTTON */
+.whatsapp-main {
+  background: #25D366;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+}
+
+.whatsapp-main:hover {
+  transform: scale(1.05);
+}
+
+/* ROUND BUTTON */
+.whatsapp-icon {
+  background: #25D366;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+  .whatsapp-icon {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
       `}</style>
 
       <div className="landing">
@@ -703,8 +753,8 @@ With these powerful insights, you can identify what’s working, eliminate ineff
 
     <p>
       📞 <strong>Phone:</strong>{" "}
-      <a href="tel:8210690050">
-        +91 8210690050
+      <a href="tel:8298171197">
+        +91 8298171197
       </a>
     </p>
   </div>
@@ -723,8 +773,28 @@ With these powerful insights, you can identify what’s working, eliminate ineff
   <a href="/plans">Pricing</a> |
   <a href="/login">Login</a> |
   <a href="/signup">Signup</a> |
-  <a href="/crm-with-automatic-calling">Auto Dialer</a>
+  <a href="/crm-with-automatic-calling">Auto Dialer</a> 
+  <a href="/best-telecalling-crm-for-small-business"></a>
 </footer>
+<div className="whatsapp-container">
+  <a
+    href="https://wa.me/918298171197?text=Hi%20I%20want%20demo%20of%20RingRing%20CRM"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="whatsapp-main"
+  >
+    Chat on WhatsApp
+  </a>
+
+  <a
+    href="https://wa.me/918298171197?text=Hi%20I%20want%20demo%20of%20RingRing%20CRM"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="whatsapp-icon"
+  >
+    💬
+  </a>
+</div>
       </div>
     </>
   );
