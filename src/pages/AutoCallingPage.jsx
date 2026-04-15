@@ -409,7 +409,7 @@ export default function AutoCallingPage() {
             justifyContent: 'center'
           }}>
             <img 
-              src="https://res.cloudinary.com/djatdycpx/image/upload/q_auto/f_auto/v1775720583/Gemini_Generated_Image_cnpfa9cnpfa9cnpf_xuvgp2.jpg" 
+              src="https://res.cloudinary.com/djatdycpx/image/upload/q_auto/f_auto/v1776238337/howitworks_2_szh3ae.png" 
               alt="CRM Auto Dialer Interface" 
               style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'cover' }}
               loading="lazy"
